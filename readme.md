@@ -9,7 +9,7 @@ wthr is a Python script for checking the weather from the command line.
 or
 
 ```
-git clone git://github.com/lavelle/ClipCloud.git
+git clone https://github.com/lavelle/wthr.git
 cd wthr
 [sudo] python setup.py install
 ```
