@@ -37,6 +37,10 @@ class Wthr:
         if place == 'here':
             place = self._getLocation()
 
+        # We don't need to go further, we don't know where it is
+        if not place:
+            return
+
         WOEID = self._getWOEID(place)
         url = 'http://weather.yahooapis.com/forecastrss?w=' + WOEID + '&u=' + unit
 
