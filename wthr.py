@@ -23,49 +23,44 @@ class Wthr:
         return woeid
 
     def _getLocation(self):
-            ip = self._getIP()
-            loc = urlopen('http://api.hostip.info/get_html.php?ip=' + ip).read()
-            location = loc[loc.find('City: ') + 6: loc.find('IP: ') - 1]
+        ip = self._getIP()
+        loc = urlopen('http://api.hostip.info/get_html.php?ip=' + ip).read()
+        location = loc[loc.find('City: ') + 6: loc.find('IP: ') - 1]
 
-            if location == '(Unknown City?)':
-                print 'Could not automatically find your location. Please enter a location instead.'
-                return None
+        if location == '(Unknown City?)':
+            print 'Could not automatically find your location. Please enter a location instead.'
+            return None
 
-            return location
+        return location
 
     def getWeather(self, place, unit):
-            if place == 'here':
-                place = self._getLocation()
+        if place == 'here':
+            place = self._getLocation()
 
-            WOEID = self._getWOEID(place)
-            url = 'http://weather.yahooapis.com/forecastrss?w=' + WOEID + '&u=' + unit
+        WOEID = self._getWOEID(place)
+        url = 'http://weather.yahooapis.com/forecastrss?w=' + WOEID + '&u=' + unit
 
-            response = parse_xml(urlopen(url).read())
-            title = response.find('channel/description').text[7:] + ' on ' + response.find('channel/item/pubDate').text + ':\n'
-            raw = response.find('channel/item/description').text
+        response = parse_xml(urlopen(url).read())
+        title = response.find('channel/description').text[7:] + ' on ' + response.find('channel/item/pubDate').text + ':\n'
+        raw = response.find('channel/item/description').text
 
-            start = 'Forecast:</b><BR />'
-            end = '<a href'
+        start = 'Forecast:</b><BR />'
+        end = '<a href'
 
-            weather = raw[raw.find(start) + len(start): raw.find(end) - 1].replace('<br />', '')[:-1]
+        weather = raw[raw.find(start) + len(start): raw.find(end) - 1].replace('<br />', '')[:-1]
 
-            return title + weather
+        return title + weather
 
 
 def main():
     if len(argv) > 1:
         place = argv[1]
-        if len(argv) > 2:
-            unit = argv[2] if (argv[2] == 'c' or argv[2] == 'f') else 'c'
-        else:
-            unit = 'c'
+        unit = argv[2] if len(argv) > 2 and argv[2] in 'cf' else 'c'
     else:
         place = None
 
-    wthr = Wthr()
-
     if place != None:
-        print wthr.getWeather(place, unit)
+        print Wthr().getWeather(place, unit)
     else:
         print 'Please specify a location'
 

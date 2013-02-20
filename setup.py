@@ -6,7 +6,7 @@ from setuptools import setup
 setup(
     name='wthr',
     version='0.1',
-    url='https://github.com/lavelle/wthr.py',
+    url='https://github.com/lavelle/wthr',
 
     author='Giles Lavelle',
     author_email='giles.lavelle@gmail.com',
