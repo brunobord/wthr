@@ -72,7 +72,7 @@ def main():
     else:
         place = None
 
-    if place != None:
+    if place:
         print Wthr().get_weather(place, unit)
     else:
         print 'Please specify a location'
